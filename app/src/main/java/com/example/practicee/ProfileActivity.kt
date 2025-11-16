@@ -1,9 +1,11 @@
 package com.example.practicee
 
+import android.R.attr.onClick
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,9 +17,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.practicee.ui.theme.Blue
 import com.example.practicee.ui.theme.PracticeeTheme
 
 class ProfileActivity : ComponentActivity() {
@@ -139,6 +148,30 @@ fun ProfileBody(){
             ) {
                 Text("Followed by everyone")
             }
+            Row(
+                modifier = Modifier.padding(start=20.dp, bottom = 10.dp)
+            )
+            {
+                Button(onClick = {
+//                  action to trigger
+                },
+                    shape = RoundedCornerShape(5.dp),
+                    colors= ButtonDefaults.buttonColors(
+                        containerColor= Blue,
+                        contentColor=Color.White,
+                    ),
+                    border= BorderStroke(2.dp,Color.Black)
+                )
+                {
+
+                    Text("Follow")
+                }
+
+                OutlinedButton(onClick = {}){
+                    Text("Submit")
+                }
+
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -208,6 +241,27 @@ fun ProfileBody(){
                     Text("Story 4")
                 }
 
+            }
+
+            Row(
+                modifier = Modifier.fillMaxSize()
+                    .padding(15.dp)
+            ){
+                Card(
+                    modifier=Modifier
+                        .height(150.dp)
+                        .width(150.dp),
+                    shape=RoundedCornerShape(5.dp),
+                    colors= CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
+                    elevation = CardDefaults
+                        .cardElevation(10.dp)
+                ) {
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        Text("Hello")
+                    }
+                }
             }
         }
     }

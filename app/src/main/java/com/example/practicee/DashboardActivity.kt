@@ -12,6 +12,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,58 +46,69 @@ class DashboardActivity : ComponentActivity() {
 }
 
 @Composable
-fun SpotifyBody(){
-    Scaffold() {
-        padding ->
+fun SpotifyBody() {
+    Scaffold() { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color= androidx.compose.ui.graphics.Color.Black)
+                .background(color = androidx.compose.ui.graphics.Color.Black)
                 .padding(padding)
         ) {
             Row(
-                modifier = Modifier.padding(top=20.dp,start=15.dp, bottom =10.dp)
-
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                    Text(
-                        "Recently Played", style = TextStyle(
-                            color = androidx.compose.ui.graphics.Color.White,
-                            fontWeight = FontWeight.Bold
+
+                Text(
+                    "Recently Played", style = TextStyle(
+                        color = androidx.compose.ui.graphics.Color.White,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier.weight(2f)
+
+                )
+
+                Row(
+                    modifier = Modifier
+                        .weight(1f).padding(end = 20.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.baseline_notifications_24),
+                        contentDescription = null,
+
                         )
 
+                    Spacer(
+                        modifier = Modifier.width(10.dp)
                     )
-                Column(
-                    modifier = Modifier,
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.baseline_notifications_24),
-                        contentDescription = null
-                    )
-                }
-                Column(
-                    modifier = Modifier,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
+                    Image(
                         painter = painterResource(R.drawable.baseline_history_24),
                         contentDescription = null
                     )
-                }
-                Column(
-                    modifier = Modifier,
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Icon(
+                    Spacer(
+                        modifier = Modifier.width(10.dp)
+                    )
+
+                    Image(
                         painter = painterResource(R.drawable.baseline_settings_24),
                         contentDescription = null
                     )
+                    Spacer(
+                        modifier = Modifier.width(10.dp)
+                    )
                 }
+
+
             }
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment= Alignment.CenterVertically,
-                horizontalArrangement= Arrangement.SpaceAround
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Column(
                     modifier = Modifier,
@@ -106,14 +118,16 @@ fun SpotifyBody(){
                         painter = painterResource(R.drawable.qqqueen),
                         contentDescription = null,
                         modifier = Modifier
-                        .height(100.dp)
-                        .width(100.dp)
-                        .clip(CircleShape),
+                            .height(100.dp)
+                            .width(100.dp)
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop,
                     )
-                    Text("Queen", style = TextStyle(
-                        color = androidx.compose.ui.graphics.Color.White
-                    ))
+                    Text(
+                        "Queen", style = TextStyle(
+                            color = androidx.compose.ui.graphics.Color.White
+                        )
+                    )
                 }
                 Column(
                     modifier = Modifier,
@@ -128,17 +142,22 @@ fun SpotifyBody(){
                             .clip(CircleShape),
                         contentScale = ContentScale.Crop,
                     )
-                    Text("Albratross",style = TextStyle(
-                        color = androidx.compose.ui.graphics.Color.White
-                    ))
+                    Text(
+                        "Albratross", style = TextStyle(
+                            color = androidx.compose.ui.graphics.Color.White
+                        )
+                    )
                 }
             }
             Row(
-                modifier = Modifier.padding(top=15.dp,start=15.dp, bottom =5.dp)
+                modifier = Modifier.padding(top = 15.dp, start = 15.dp, bottom = 5.dp)
             ) {
-                Text("Recommended For Today",style = TextStyle(
-                    color = androidx.compose.ui.graphics.Color.White,
-                    fontWeight = FontWeight.Bold))
+                Text(
+                    "Recommended For Today", style = TextStyle(
+                        color = androidx.compose.ui.graphics.Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
             }
             Row() {
                 Column(
@@ -169,13 +188,16 @@ fun SpotifyBody(){
                 }
             }
             Row(
-                modifier = Modifier.padding(top=15.dp,start=15.dp, bottom =5.dp)
+                modifier = Modifier.padding(top = 15.dp, start = 15.dp, bottom = 5.dp)
             ) {
-                Text("Editor's Picks",style = TextStyle(
-                    color = androidx.compose.ui.graphics.Color.White,
-                    fontWeight = FontWeight.Bold))
+                Text(
+                    "Editor's Picks", style = TextStyle(
+                        color = androidx.compose.ui.graphics.Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
             }
-            Row(){
+            Row() {
                 Column(
                     modifier = Modifier,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -209,6 +231,6 @@ fun SpotifyBody(){
 
 @Preview
 @Composable
-fun SpotifyDash(){
+fun SpotifyDash() {
     SpotifyBody()
 }
