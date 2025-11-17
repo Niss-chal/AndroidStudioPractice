@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Practicee</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_card_practice">CardPractice</string>
+    <string name="title_activity_facebook">FacebookActivity</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 </resources>
