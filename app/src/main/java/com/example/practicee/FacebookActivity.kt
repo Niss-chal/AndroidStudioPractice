@@ -119,7 +119,7 @@ fun FacebookBody(){
             ) {
                 SocialMediaCard(
                     Modifier
-                        .height(80.dp)
+                        .height(60.dp)
                         .weight(1f),
                     R.drawable.facebook,
                     "Facebook"
@@ -284,10 +284,10 @@ fun FacebookBody(){
 @Composable
 fun SocialMediaCard(modifier: Modifier,image: Int, label:  String){
     Card(
-        modifier = Modifier
+        modifier = modifier
     ) {
         Row(
-            modifier=Modifier.fillMaxWidth(),
+            modifier=Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
