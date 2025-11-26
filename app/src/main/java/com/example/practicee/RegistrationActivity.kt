@@ -1,6 +1,7 @@
 package com.example.practicee
 
 import android.R.attr.data
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -81,6 +82,7 @@ fun RegistrationBody(){
     var terms by remember { mutableStateOf(false) }
     var date by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val activity = context as Activity
     var calender = Calendar.getInstance()
     var year = calender.get(Calendar.YEAR)
     var month = calender.get(Calendar.MONTH)
