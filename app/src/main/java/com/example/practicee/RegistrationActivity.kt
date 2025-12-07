@@ -2,7 +2,9 @@ package com.example.practicee
 
 import android.R.attr.data
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -81,8 +83,17 @@ fun RegistrationBody(){
     var visibility by remember { mutableStateOf(false) }
     var terms by remember { mutableStateOf(false) }
     var date by remember { mutableStateOf("") }
+
+
     val context = LocalContext.current
     val activity = context as Activity
+    val sharedPreference =
+        context.getSharedPreferences("User",
+            Context.MODE_PRIVATE)
+
+    val editor = sharedPreference.edit()
+
+
     var calender = Calendar.getInstance()
     var year = calender.get(Calendar.YEAR)
     var month = calender.get(Calendar.MONTH)
@@ -239,7 +250,22 @@ fun RegistrationBody(){
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        if(!terms){
+                            Toast.makeText(context,"Please agree to terms and conditions",Toast.LENGTH_SHORT).show()
+                        }else{
+                            editor.putString("email",email)
+                            editor.putString("password",password)
+                            editor.putString("date",date)
+
+                            editor.apply()
+                            activity.finish()
+
+                            Toast.makeText(context,"Registered Successfully",Toast.LENGTH_SHORT).show()
+                        }
+
+
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Blue
                     ),

@@ -198,17 +198,6 @@ fun RandomBody(){
                     elevation = CardDefaults
                         .cardElevation(10.dp)){
 
-                    Card(
-                        modifier=Modifier
-                            .height(230.dp)
-                            .weight(1f),
-                        shape=RoundedCornerShape(10.dp),
-                        colors= CardDefaults.cardColors(
-                            containerColor = White
-                        ),
-                        elevation = CardDefaults
-                            .cardElevation(10.dp)
-                    ) {
                         Image(painter = painterResource(R.drawable.dog),
                             contentDescription = null,
                             modifier = Modifier.fillMaxSize())
@@ -217,7 +206,7 @@ fun RandomBody(){
                     
 
 
-                }
+
             }
 
 
