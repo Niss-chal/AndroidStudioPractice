@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "246941275738",
+    "firebase_url": "https://practicee-5e8d0-default-rtdb.firebaseio.com",
+    "project_id": "practicee-5e8d0",
+    "storage_bucket": "practicee-5e8d0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246941275738:android:984e12256856a1052eaa63",
+        "android_client_info": {
+          "package_name": "com.example.practicee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxZVv1TqUzgPGvBlICFcyX4NdmzK-064U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

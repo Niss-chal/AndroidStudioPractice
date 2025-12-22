@@ -12,7 +12,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,9 +25,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -62,9 +59,7 @@ import androidx.compose.ui.unit.sp
 import com.example.practicee.ui.theme.Blue
 import com.example.practicee.ui.theme.DarkGrey
 import com.example.practicee.ui.theme.Greyy
-import com.example.practicee.ui.theme.PracticeeTheme
 import com.example.practicee.ui.theme.White
-import org.w3c.dom.Text
 
 class FacebookActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

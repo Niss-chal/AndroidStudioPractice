@@ -1,138 +1,233 @@
 package com.example.practicee
 
 import android.R.attr.data
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.practicee.model.ProductModel
+import com.example.practicee.repository.ProductRepoImpl
 import com.example.practicee.ui.theme.Blue
+import com.example.practicee.ui.theme.DarkGrey
+import com.example.practicee.ui.theme.Greyy
 import com.example.practicee.ui.theme.White
+import com.example.practicee.viewmodel.ProductViewModel
 
 @Composable
 fun HomeScreen() {
 
-    data class Product(val image: Int, val label: String)
+    val context = LocalContext.current
 
-    val listData = listOf(
-        Product(R.drawable.orange,"Orange"),
-        Product(R.drawable.dragon,"DragonFruit"),
-        Product(R.drawable.strawberry,"Strawberry"),
-        Product(R.drawable.watermelon,"Watermelon"),
-        Product(R.drawable.pine,"Pineapple"),
-        Product(R.drawable.apple,"Apple"),
+    val productViewModel = remember { ProductViewModel(ProductRepoImpl()) }
 
-    )
+    var productName by remember { mutableStateOf("") }
+    var productPrice by remember { mutableStateOf("") }
+    var productDescription  by remember { mutableStateOf("") }
+
+    val allProducts = productViewModel.allProducts.observeAsState(initial = emptyList())
+
+    val product = productViewModel.products.observeAsState(initial = null)
+
+    LaunchedEffect(product.value) {
+        productViewModel.getAllProduct()
+
+        product.value?.let {
+            productName = it.name
+            productPrice = it.price
+            productDescription = it.description
+        }
+    }
+
+    var showDialog by remember { mutableStateOf(false) }
+
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(White)
     ) {
 
         item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+            if (showDialog) {
+                AlertDialog(
+                    onDismissRequest = {
+                        showDialog = false
+                    },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            var model = ProductModel(
+                                product.value!!.productId,
+                                productName,productPrice,productDescription,""
+                            )
+                            productViewModel.updateProduct(model){
+                                success,message ->
+                                if(success){
+                                    showDialog = false
+                                }else{
+                                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }) { Text("Update") }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = {
+                            showDialog = false
+                        }) { Text("Cancel") }
+                    },
+                    title = {Text("Update Product")},
+                    text = {
+                        Column {
+                            Spacer(modifier = Modifier.height(50.dp))
 
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.banner),
-                    contentDescription = null,
-                    modifier = Modifier.size(500.dp)
-                        .padding(horizontal = 20.dp)
+                            OutlinedTextField(
+                                value = productName,
+                                onValueChange = { data ->
+                                    productName = data
+                                },
+                                shape = RoundedCornerShape(12.dp),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp),
+                                placeholder = {
+                                    Text("Enter the product name")
+                                },
+                                colors = TextFieldDefaults.colors(
+                                    focusedContainerColor = Greyy,
+                                    unfocusedContainerColor = Greyy,
+                                    focusedIndicatorColor = DarkGrey,
+                                    unfocusedIndicatorColor = Color.Transparent
+                                )
+                            )
+
+                            Spacer(modifier = Modifier.height(15.dp))
+
+
+                            OutlinedTextField(
+                                value = productPrice,
+                                onValueChange = { data ->
+                                    productPrice = data
+                                },
+                                shape = RoundedCornerShape(12.dp),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp),
+                                placeholder = {
+                                    Text("Enter the price")
+                                },
+                                colors = TextFieldDefaults.colors(
+                                    focusedContainerColor = Greyy,
+                                    unfocusedContainerColor = Greyy,
+                                    focusedIndicatorColor = DarkGrey,
+                                    unfocusedIndicatorColor = Color.Transparent
+                                )
+                            )
+
+                            Spacer(modifier = Modifier.height(15.dp))
+
+
+                            OutlinedTextField(
+                                value = productDescription,
+                                onValueChange = { data ->
+                                    productDescription = data
+                                },
+                                shape = RoundedCornerShape(12.dp),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Text
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp),
+                                placeholder = {
+                                    Text("Enter the description")
+                                },
+                                colors = TextFieldDefaults.colors(
+                                    focusedContainerColor = Greyy,
+                                    unfocusedContainerColor = Greyy,
+                                    focusedIndicatorColor = DarkGrey,
+                                    unfocusedIndicatorColor = Color.Transparent
+                                )
+                            )
+                        }
+                    }
                 )
             }
         }
 
-        item {
-            Button(onClick = {}) { Text("Click me") }
-            Button(onClick = {}) { Text("Click me") }
+        items(allProducts.value!!.size){ index ->
+            var data = allProducts.value!![index]
+            Card(modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 20.dp)) {
+                Column {
+                    Text(data.name)
+                    Text(data.price)
+                    Text(data.description)
+                    IconButton(onClick = {
+                        showDialog = true
+                        productViewModel.getProductById(data.productId)
+                    })
+                    {
+                        Icon(Icons.Default.Edit,contentDescription=null) }
 
-            Row(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(20.dp)
+                    IconButton(onClick = {
+                        productViewModel.deleteProduct(data.productId){
+                            success,msg ->
+                            if(success){
 
+                            }else{
 
-            ) {
-                Text("Flash Sale", style = TextStyle(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                ))
-            }
-        }
-
-        item {
-
-
-            LazyRow {
-
-                items(listData.size) { index ->
-                    Column(
-                        modifier = Modifier.padding(end = 10.dp)
-                        , verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painterResource(listData[index].image),
-                            contentDescription = null,
-                            modifier = Modifier.size(100.dp)
-                        )
-                        Text(listData[index].label)
-                    }
+                            }
+                        }
+                    })
+                    {Icon(Icons.Default.Delete,contentDescription=null) }
                 }
-
-            }
-        }
-
-        item {
-
-            Row(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(top = 40.dp, bottom=20.dp ,start = 20.dp)
-
-
-            ) {
-                Text("Recommended For You", style = TextStyle(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                ))
-            }
-        }
-
-        item {
-
-
-            LazyRow {
-
-                items(listData.size) { index ->
-                    Column(
-                        modifier = Modifier.padding(end = 10.dp)
-                        , verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painterResource(listData[index].image),
-                            contentDescription = null,
-                            modifier = Modifier.size(100.dp)
-                        )
-                        Text(listData[index].label)
-                    }
-                }
-
             }
         }
 

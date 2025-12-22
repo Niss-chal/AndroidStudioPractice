@@ -55,12 +55,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.practicee.model.UserModel
+import com.example.practicee.repository.UserRepoImpl
 import com.example.practicee.ui.theme.Blue
 import com.example.practicee.ui.theme.DarkGrey
 import com.example.practicee.ui.theme.Greyy
 import com.example.practicee.ui.theme.LightGreen
 import com.example.practicee.ui.theme.PracticeeTheme
 import com.example.practicee.ui.theme.White
+import com.example.practicee.viewmodel.UserViewModel
 import java.util.Calendar
 
 class RegistrationActivity : ComponentActivity() {
@@ -77,9 +80,14 @@ class RegistrationActivity : ComponentActivity() {
 @Composable
 fun RegistrationBody(){
 
+    var userViewModel = remember { UserViewModel(UserRepoImpl()) }
+
 
     var email by remember { mutableStateOf("")}
     var password by remember { mutableStateOf("") }
+    var firstName by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
+    var gender by remember { mutableStateOf("") }
     var visibility by remember { mutableStateOf(false) }
     var terms by remember { mutableStateOf(false) }
     var date by remember { mutableStateOf("") }
@@ -144,6 +152,90 @@ fun RegistrationBody(){
                     modifier = Modifier.fillMaxWidth().padding(horizontal=20.dp),
                     placeholder = {
                         Text("abc@gmail.com")
+                    },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor=Greyy,
+                        unfocusedContainerColor=Greyy,
+                        focusedIndicatorColor= DarkGrey,
+                        unfocusedIndicatorColor=Color.Transparent
+                    )
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row(
+                modifier=Modifier.fillMaxWidth()
+
+            ) {
+                OutlinedTextField(
+                    value = firstName,
+                    onValueChange = { data->
+                        firstName=data
+                    },
+                    shape= RoundedCornerShape(12.dp),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text
+                    ),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal=20.dp),
+                    placeholder = {
+                        Text("Enter Your First Name")
+                    },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor=Greyy,
+                        unfocusedContainerColor=Greyy,
+                        focusedIndicatorColor= DarkGrey,
+                        unfocusedIndicatorColor=Color.Transparent
+                    )
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row(
+                modifier=Modifier.fillMaxWidth()
+
+            ) {
+                OutlinedTextField(
+                    value = lastName,
+                    onValueChange = { data->
+                        lastName=data
+                    },
+                    shape= RoundedCornerShape(12.dp),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text
+                    ),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal=20.dp),
+                    placeholder = {
+                        Text("Enter Your Last Name")
+                    },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor=Greyy,
+                        unfocusedContainerColor=Greyy,
+                        focusedIndicatorColor= DarkGrey,
+                        unfocusedIndicatorColor=Color.Transparent
+                    )
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row(
+                modifier=Modifier.fillMaxWidth()
+
+            ) {
+                OutlinedTextField(
+                    value = gender,
+                    onValueChange = { data->
+                        gender=data
+                    },
+                    shape= RoundedCornerShape(12.dp),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text
+                    ),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal=20.dp),
+                    placeholder = {
+                        Text("Enter Your Gender")
                     },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor=Greyy,
@@ -226,6 +318,8 @@ fun RegistrationBody(){
                 )
             }
 
+
+
             Spacer(modifier = Modifier.height(20.dp))
 
             Row(
@@ -254,14 +348,40 @@ fun RegistrationBody(){
                         if(!terms){
                             Toast.makeText(context,"Please agree to terms and conditions",Toast.LENGTH_SHORT).show()
                         }else{
-                            editor.putString("email",email)
-                            editor.putString("password",password)
-                            editor.putString("date",date)
+                            userViewModel.register(email,password){
+                                success,message,userId ->
+                               if(success){
+                                   var model = UserModel(
+                                       userId = userId,
+                                       email=email,
+                                       firstName = firstName,
+                                       lastName = lastName,
+                                       gender = gender,
+                                       dob = date
+                                   )
+                                   userViewModel.addUserToDatabase(userId,model){
+                                       success, msg ->
+                                       if(success){
+                                           activity.finish()
+                                           Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+                                       }else{
+                                           Toast.makeText(context,message, Toast.LENGTH_SHORT).show()
+                                       }
+                                   }
 
-                            editor.apply()
-                            activity.finish()
+                               }else{
+                                   Toast.makeText(context,message, Toast.LENGTH_SHORT).show()
+                               }
+                            }
 
-                            Toast.makeText(context,"Registered Successfully",Toast.LENGTH_SHORT).show()
+//                            editor.putString("email",email)
+//                            editor.putString("password",password)
+//                            editor.putString("date",date)
+//
+//                            editor.apply()
+//                            activity.finish()
+//
+//                            Toast.makeText(context,"Registered Successfully",Toast.LENGTH_SHORT).show()
                         }
 
 

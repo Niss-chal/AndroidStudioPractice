@@ -37,6 +37,7 @@ import com.example.practicee.ui.theme.Blue
 import com.example.practicee.ui.theme.Greyy
 import com.example.practicee.ui.theme.Maroon
 import com.example.practicee.ui.theme.Pink40
+import com.example.practicee.ui.theme.Pink80
 import com.example.practicee.ui.theme.White
 
 @Composable
@@ -56,7 +57,7 @@ fun ProfileScreen() {
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
-            .background(White)
+            .background(Pink80)
     ) {
         item {
             Row(
@@ -83,7 +84,7 @@ fun ProfileScreen() {
 
                 ) {
                     Text(
-                        text = "HEHE HAHA",
+                        text = "Hari Bahadur",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
